@@ -502,7 +502,7 @@
     gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     var U = {};
     ["u_res", "u_time", "u_mouse", "u_scroll", "u_click"].forEach(function (n) { U[n] = gl.getUniformLocation(pr, n); });
-    var scale = 0.4, sx = mouseX, sy = mouseY, last = 0, clickX = 0, clickY = 0, clickT = -100;
+    var scale = innerWidth < 700 ? 0.3 : 0.4, sx = mouseX, sy = mouseY, last = 0, clickX = 0, clickY = 0, clickT = -100;
     function resize() {
       cv.width = Math.max(2, Math.floor(innerWidth * scale));
       cv.height = Math.max(2, Math.floor(innerHeight * scale));
@@ -524,7 +524,13 @@
       draw(now);
     }
     resize();
-    addEventListener("resize", function () { resize(); draw(performance.now()); });
+    var lastW = innerWidth, lastH = innerHeight;
+    addEventListener("resize", function () {
+      // Ignore the mobile browser bar sliding in and out; only re-render on a real size change.
+      if (innerWidth === lastW && Math.abs(innerHeight - lastH) < 150) return;
+      lastW = innerWidth; lastH = innerHeight;
+      resize(); draw(performance.now());
+    });
     document.body.classList.add("gl");
     if (!reduce) addEventListener("pointerdown", function (e) { clickX = e.clientX; clickY = e.clientY; clickT = performance.now() / 1000; });
     draw(performance.now());

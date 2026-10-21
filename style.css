@@ -341,3 +341,19 @@ section.wrap:not(.stats-band) { padding: 80px 0; }
 .term-in input { flex: 1; min-width: 0; background: none; border: 0; outline: 0; color: var(--text); font: inherit; caret-color: var(--c1); }
 @media (max-width: 640px) { .term-in input { font-size: 16px; } .term-btn { right: 12px; bottom: 12px; } }
 #confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 500; }
+
+/* ---------- Mobile polish ---------- */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+a, button { -webkit-tap-highlight-color: transparent; }
+@media (max-width: 640px) {
+  .term-btn { width: 46px; height: 46px; padding: 0; justify-content: center; right: 12px; bottom: 12px; font-size: 0; gap: 0; }
+  .term-btn .prompt { font-size: 15px; }
+  .term-btn kbd { display: none; }
+  .hero { padding-bottom: 78px; }
+  .hero-bar { justify-content: flex-start; }
+  .hero-bar #hint { display: none; }
+  .links { -webkit-mask-image: linear-gradient(90deg, #000 86%, transparent); mask-image: linear-gradient(90deg, #000 86%, transparent); }
+  .term-wrap { place-items: start center; padding-top: 12px; }
+  .term { height: min(420px, 52svh); }
+  .controls input[type=range] { height: 28px; }
+}
