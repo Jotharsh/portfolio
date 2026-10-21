@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio</title>
+  <meta name="description" content="Personal developer portfolio">
+  <meta name="theme-color" content="#04070d">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="gl" aria-hidden="true"></canvas>
+  <div class="bg" aria-hidden="true">
+    <span class="blob b1"></span>
+    <span class="blob b2"></span>
+    <span class="blob b3"></span>
+    <span class="dots"></span>
+    <span class="grain"></span>
+  </div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+  <div class="rail" id="rail" aria-hidden="true"><span class="rail-fill" id="rail-fill"></span><span class="rail-dot" id="rail-dot"></span></div>
+  <button class="term-btn glass" id="term-btn" type="button" aria-label="Open terminal"><span class="prompt">&gt;_</span> Terminal <kbd>/</kbd></button>
+  <div class="term-wrap" id="term" role="dialog" aria-modal="true" aria-label="Terminal" hidden>
+    <div class="term glass">
+      <div class="term-bar"><span class="dots3"><i></i><i></i><i></i></span><span>visitor@portfolio</span><button class="term-x" id="term-x" type="button" aria-label="Close terminal">esc</button></div>
+      <div class="term-out" id="term-out"></div>
+      <form class="term-in" id="term-form" autocomplete="off"><span class="ps1">$</span><input id="term-input" type="text" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Terminal command"></form>
+    </div>
+  </div>
+
+  <header class="nav-wrap">
+    <nav class="nav glass" aria-label="Primary">
+      <a href="#top" class="logo" id="logo" aria-label="Back to top"></a>
+      <div class="links" id="links">
+        <span class="indicator" id="indicator"></span>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#lab">Lab</a>
+        <a href="#experience">Journey</a>
+        <a href="#certifications">Certs</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero" id="home">
+      <div class="hero-inner">
+        <div class="hero-head">
+          <h1 class="name" id="hero-name"></h1>
+          <h2 class="title enter" style="--d:.5s" id="hero-title"></h2>
+        </div>
+        <div class="hero-left">
+          <p class="lead enter" style="--d:.65s" id="tagline"></p>
+          <div class="cta enter" style="--d:.8s">
+            <a class="btn primary" href="#projects"><span>View my work</span>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a class="btn ghost" href="#contact" id="cta-contact"><span>Get in touch</span></a>
+          </div>
+        </div>
+        <aside class="telemetry glass enter" style="--d:.9s" aria-label="Simulated sensor telemetry">
+          <div class="tele-main">
+            <div class="tele-val" aria-label="Temperature"><span id="t-temp">27.4</span><small>°C</small></div>
+            <svg class="spark" viewBox="0 0 300 90" aria-hidden="true">
+              <defs>
+                <linearGradient id="sg" x1="0" x2="1"><stop offset="0" stop-color="var(--c1)"/><stop offset="1" stop-color="var(--c2)"/></linearGradient>
+                <linearGradient id="sa" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="var(--c1)" stop-opacity=".35"/><stop offset="1" stop-color="var(--c1)" stop-opacity="0"/></linearGradient>
+              </defs>
+              <path id="spark-area" fill="url(#sa)"/>
+              <path id="spark-line" fill="none" stroke="url(#sg)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle id="spark-dot" r="4.5" fill="var(--c1)"/>
+            </svg>
+          </div>
+          <div class="tele-row">
+            <div><span>Humidity</span><b id="t-hum">58%</b></div>
+            <div><span>Gas</span><b id="t-gas">182 ppm</b></div>
+            <div><span>Soil</span><b id="t-soil">41%</b></div>
+          </div>
+          <div class="tele-foot">
+            <span class="live"><i></i>Simulated telemetry</span>
+            <span class="tag">ESP32 · MQTT</span>
+          </div>
+        </aside>
+      </div>
+      <div class="hero-bar enter" style="--d:1s">
+        <span id="hint">Scroll</span>
+        <span id="coords"></span>
+        <span id="avail"></span>
+      </div>
+    </section>
+
+    <div class="marquee" id="marquee" aria-hidden="true"></div>
+
+    <section class="wrap stats-band" aria-label="At a glance">
+      <div class="stats" id="stats"></div>
+    </section>
+
+    <section id="about" class="wrap">
+      <header class="sec-head reveal"><h2>About</h2></header>
+      <p class="statement" id="statement"></p>
+      <div class="about-grid">
+        <div class="glass panel reveal" id="bio"></div>
+        <div class="glass panel reveal" style="--d:.1s">
+          <h3 class="mini">Focus areas</h3>
+          <div class="chips" id="interests"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills" class="wrap">
+      <header class="sec-head reveal"><h2>Skills</h2></header>
+      <div class="skills-grid" id="skill-groups"></div>
+    </section>
+
+    <section id="projects" class="wrap">
+      <header class="sec-head reveal"><h2>Projects</h2></header>
+      <ul class="plist" id="plist"></ul>
+    </section>
+
+    <section id="lab" class="wrap">
+      <header class="sec-head reveal"><h2>Try the logic</h2></header>
+      <div class="demo glass reveal">
+        <div class="demo-body">
+          <h3>Smart irrigation, running in your browser</h3>
+          <p>The same rule as my ESP8266 build: when soil moisture drops below the threshold, the relay switches the pump on. Drag the sliders, or let the simulation run and watch the pump hold the soil near the threshold.</p>
+          <div class="demo-grid">
+            <div class="tank-wrap">
+              <div class="tank" id="tank" style="--lvl:42" role="img" aria-label="Soil moisture level"><span class="wave"></span></div>
+              <b class="tank-val" id="tank-val">42%</b>
+            </div>
+            <div class="controls">
+              <label for="soil">Soil moisture <output id="o-soil">42%</output></label>
+              <input type="range" id="soil" min="0" max="100" value="42">
+              <label for="th">Pump switches on below <output id="o-th">35%</output></label>
+              <input type="range" id="th" min="10" max="70" value="35">
+              <div class="relay" id="relay" aria-live="polite"><span class="led"></span><span id="relay-text">Relay off</span></div>
+              <button class="btn primary" id="sim" type="button"><span>Run simulation</span></button>
+            </div>
+          </div>
+          <pre class="coap"><code>GET /soil        &rarr; <span id="c-soil">42</span>
+GET /irrigation  &rarr; <span id="c-irr">off</span></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="wrap">
+      <header class="sec-head reveal"><h2>Journey</h2></header>
+      <div class="timeline" id="timeline"></div>
+    </section>
+
+    <section id="certifications" class="wrap">
+      <header class="sec-head reveal"><h2>Certifications</h2></header>
+      <div class="cert-grid" id="cert-list"></div>
+    </section>
+
+    <section id="contact" class="wrap">
+      <div class="contact glass reveal">
+        <h2>Let's build something connected.</h2>
+        <a class="mail-big" id="mail-big" href="#"></a>
+        <p>Have an IoT, embedded or cloud project in mind, or a role to talk about? My inbox is open.</p>
+        <div class="cta" id="contact-links"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="giant" id="giant" aria-hidden="true"></div>
+    <div class="wrap foot-row"><span id="footer"></span><a href="#top">Back to top ↑</a></div>
+  </footer>
+
+  <script src="content.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
